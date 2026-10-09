@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#102a43" />
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Libre+Franklin:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+    <title>Glenride App Store</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --paper: #f4f7f8;
+        --surface: #ffffff;
+        --surface-2: #eaf0f2;
+        --ink: #102a43;
+        --muted: #4c6273;
+        --line: #c9d4da;
+        --line-strong: #8195a3;
+        --navy: #102a43;
+        --navy-2: #173f5f;
+        --aqua: #4fd1c5;
+        --aqua-soft: #d9f5f1;
+        --amber: #f4b942;
+        --amber-soft: #fff1c9;
+        --coral: #ee6c4d;
+        --coral-soft: #ffe4dc;
+        --lime: #b7d64a;
+        --lime-soft: #edf7c8;
+        --shadow: 0 18px 48px rgba(16, 42, 67, 0.12);
+        --sans: "Libre Franklin", "Helvetica Neue", sans-serif;
+        --mono: "IBM Plex Mono", ui-monospace, monospace;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --paper: #07141e;
+          --surface: #0d2232;
+          --surface-2: #132d40;
+          --ink: #eff7f8;
+          --muted: #b7c8d2;
+          --line: #29465a;
+          --line-strong: #668096;
+          --navy: #091c2a;
+          --navy-2: #12344d;
+          --aqua: #5ce1d4;
+          --aqua-soft: #123f42;
+          --amber: #f5c25e;
+          --amber-soft: #483916;
+          --coral: #ff8669;
+          --coral-soft: #49291f;
+          --lime: #c6e365;
+          --lime-soft: #314015;
+          --shadow: 0 18px 50px rgba(0, 0, 0, 0.32);
+        }
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        min-width: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--sans);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+      button, input { font: inherit; }
+      button, summary, a { -webkit-tap-highlight-color: transparent; }
+      a { color: inherit; }
+      .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        background: var(--navy);
+        color: #f7fbfc;
+        border-bottom: 8px solid var(--aqua);
+      }
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0 0 0 52%;
+        opacity: 0.22;
+        background-image:
+          linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px);
+        background-size: 38px 38px;
+        transform: skewX(-8deg) translateX(6%);
+        transform-origin: bottom;
+        pointer-events: none;
+      }
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        min-height: 380px;
+        padding: 64px 0 52px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+        gap: clamp(44px, 8vw, 110px);
+        align-items: end;
+      }
+      .kicker {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+        align-items: center;
+        color: #bceeea;
+        font: 600 12px/1.3 var(--mono);
+        letter-spacing: .05em;
+      }
+      .kicker .dot { width: 8px; height: 8px; background: var(--aqua); border-radius: 50%; }
+      h1 {
+        max-width: 780px;
+        margin: 18px 0 20px;
+        font-size: clamp(42px, 7vw, 78px);
+        line-height: .98;
+        letter-spacing: -.055em;
+        font-weight: 800;
+      }
+      .hero-copy {
+        max-width: 670px;
+        margin: 0;
+        color: #dce8ee;
+        font-size: clamp(17px, 2vw, 21px);
+        line-height: 1.55;
+      }
+      .snapshot {
+        background: #f7fbfc;
+        color: #102a43;
+        padding: 22px 24px 20px;
+        box-shadow: 12px 12px 0 var(--coral);
+      }
+      .snapshot-label {
+        margin: 0 0 15px;
+        color: #516a7b;
+        font: 600 11px/1.2 var(--mono);
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+      .snapshot-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; }
+      .metric { padding: 13px 10px 10px 0; border-top: 1px solid #c9d4da; }
+      .metric:nth-child(even) { padding-left: 16px; border-left: 1px solid #c9d4da; }
+      .metric strong { display: block; font-size: 26px; line-height: 1; }
+      .metric span { display: block; margin-top: 6px; color: #516a7b; font: 500 11px/1.2 var(--mono); text-transform: uppercase; }
+
+      .buying-band { background: var(--surface); border-bottom: 1px solid var(--line); }
+      .buying-inner { padding: 56px 0 0; }
+      .buying-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 44px; align-items: start; margin-bottom: 32px; }
+      .buying-head h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); line-height: 1.05; letter-spacing: -.04em; }
+      .buying-head p { max-width: 680px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.7; }
+      .buying-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-bottom: 0; }
+      .buying-path { display: flex; min-height: 255px; flex-direction: column; padding: 24px; }
+      .buying-path + .buying-path { border-left: 1px solid var(--line); }
+      .path-num { color: var(--coral); font: 600 11px/1.2 var(--mono); }
+      .buying-path h3 { margin: 28px 0 9px; font-size: 20px; line-height: 1.2; }
+      .buying-path p { margin: 0 0 24px; color: var(--muted); font-size: 14px; line-height: 1.65; }
+      .path-link { width: fit-content; margin-top: auto; padding: 0 0 4px; border: 0; border-bottom: 1px solid currentColor; background: transparent; color: var(--ink); cursor: pointer; font-size: 12px; font-weight: 800; }
+      .path-link:hover { color: var(--coral); }
+
+      .toolbar-wrap { position: relative; z-index: 3; margin-top: -1px; }
+      .toolbar {
+        display: grid;
+        grid-template-columns: minmax(210px, 1fr) auto;
+        gap: 18px;
+        align-items: center;
+        padding: 22px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .search-wrap { position: relative; max-width: 430px; }
+      .search-wrap svg { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+      #search {
+        width: 100%;
+        height: 46px;
+        border: 1px solid var(--line-strong);
+        border-radius: 4px;
+        padding: 0 15px 0 44px;
+        background: var(--surface);
+        color: var(--ink);
+        outline: none;
+      }
+      #search:focus { border-color: var(--navy-2); box-shadow: 0 0 0 3px var(--aqua-soft); }
+      #search::placeholder { color: var(--muted); opacity: .8; }
+      .filters { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+      .filter {
+        min-height: 40px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 8px 13px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .filter:hover { border-color: var(--line-strong); color: var(--ink); }
+      .filter[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+      .filter span { margin-left: 5px; font-family: var(--mono); font-size: 11px; }
+
+      .catalog { padding: 44px 0 74px; }
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      .section-head h2 { margin: 0; font-size: clamp(27px, 4vw, 42px); letter-spacing: -.035em; line-height: 1.05; }
+      .results { margin: 0; color: var(--muted); font: 500 12px/1.4 var(--mono); }
+      .app-list { border-top: 2px solid var(--ink); }
+      .app {
+        display: grid;
+        grid-template-columns: 86px minmax(0, .88fr) minmax(280px, 1.12fr) 160px;
+        gap: 22px;
+        align-items: start;
+        padding: 26px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .app[hidden] { display: none; }
+      .mark {
+        width: 66px;
+        height: 66px;
+        display: grid;
+        place-items: center;
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        color: var(--ink);
+        font: 700 20px/1 var(--mono);
+        letter-spacing: -.08em;
+      }
+      .mark[data-tone="aqua"] { background: var(--aqua-soft); border-color: var(--aqua); }
+      .mark[data-tone="amber"] { background: var(--amber-soft); border-color: var(--amber); }
+      .mark[data-tone="coral"] { background: var(--coral-soft); border-color: var(--coral); }
+      .mark[data-tone="lime"] { background: var(--lime-soft); border-color: var(--lime); }
+      .app-title-line { display: flex; flex-wrap: wrap; gap: 9px 10px; align-items: center; }
+      .app h3 { margin: 1px 0 0; font-size: 20px; line-height: 1.2; letter-spacing: -.02em; }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        padding: 5px 8px;
+        font: 600 10px/1 var(--mono);
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        white-space: nowrap;
+      }
+      .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+      .status.live { color: #17685f; background: var(--aqua-soft); }
+      .status.stage { color: #855e00; background: var(--amber-soft); }
+      .status.custom { color: #9a3d27; background: var(--coral-soft); }
+      @media (prefers-color-scheme: dark) {
+        .status.live { color: #8ff1e7; }
+        .status.stage { color: #ffd372; }
+        .status.custom { color: #ffa891; }
+      }
+      .meta { margin: 10px 0 0; color: var(--muted); font: 500 11px/1.5 var(--mono); }
+      .offer-line { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
+      .offer {
+        display: inline-flex;
+        align-items: center;
+        min-height: 24px;
+        padding: 4px 7px;
+        border: 1px solid var(--line-strong);
+        border-radius: 3px;
+        color: var(--ink);
+        font: 600 9px/1 var(--mono);
+        letter-spacing: .035em;
+        text-transform: uppercase;
+      }
+      .offer.open { background: var(--aqua-soft); border-color: var(--aqua); }
+      .offer.pending { background: var(--amber-soft); border-color: var(--amber); }
+      .description { margin: 0; color: var(--ink); font-size: 15px; line-height: 1.65; }
+      details { margin-top: 11px; }
+      summary {
+        width: fit-content;
+        color: var(--muted);
+        cursor: pointer;
+        font: 600 11px/1.4 var(--mono);
+        list-style: none;
+      }
+      summary::-webkit-details-marker { display: none; }
+      summary::before { content: "+"; display: inline-block; margin-right: 8px; color: var(--coral); font-size: 15px; }
+      details[open] summary::before { content: "−"; }
+      .detail-copy { margin: 9px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+      .action { justify-self: end; min-width: 140px; text-align: right; }
+      .out-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        min-height: 42px;
+        padding: 9px 13px;
+        border: 1px solid var(--ink);
+        border-radius: 4px;
+        color: var(--ink);
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .out-link:hover { background: var(--ink); color: var(--paper); }
+      .out-link svg { width: 14px; height: 14px; }
+      .action-note { display: block; color: var(--muted); font: 500 11px/1.5 var(--mono); }
+      .empty {
+        display: none;
+        padding: 54px 18px;
+        text-align: center;
+        border-bottom: 1px solid var(--line);
+        color: var(--muted);
+      }
+      .empty.show { display: block; }
+      .empty strong { display: block; color: var(--ink); font-size: 18px; margin-bottom: 5px; }
+
+      .system-band { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .system-inner { padding: 62px 0 68px; }
+      .system-intro { display: grid; grid-template-columns: .7fr 1.3fr; gap: 48px; margin-bottom: 42px; }
+      .system-intro h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); letter-spacing: -.04em; line-height: 1.05; }
+      .system-intro p { max-width: 690px; margin: 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
+      .system-steps { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); }
+      .step { min-height: 190px; padding: 25px 24px 27px; }
+      .step + .step { border-left: 1px solid var(--line); }
+      .step-num { color: var(--coral); font: 600 12px/1 var(--mono); }
+      .step h3 { margin: 30px 0 8px; font-size: 18px; }
+      .step p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+      .ledger { padding: 65px 0 72px; }
+      .ledger-grid { display: grid; grid-template-columns: minmax(240px, .65fr) minmax(0, 1.35fr); gap: 64px; }
+      .ledger h2 { margin: 0 0 14px; font-size: clamp(28px, 4vw, 42px); letter-spacing: -.035em; }
+      .ledger-lead { margin: 0; color: var(--muted); line-height: 1.7; }
+      .definitions { margin: 0; }
+      .definition { display: grid; grid-template-columns: 120px 1fr; gap: 24px; padding: 18px 0; border-top: 1px solid var(--line); }
+      .definition:last-child { border-bottom: 1px solid var(--line); }
+      .definition dt { font: 700 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .04em; }
+      .definition dd { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+      .trust-center { background: var(--navy); color: #f7fbfc; border-top: 8px solid var(--aqua); }
+      .trust-inner { padding: 68px 0 72px; }
+      .trust-head { display: grid; grid-template-columns: .72fr 1.28fr; gap: 54px; margin-bottom: 38px; }
+      .trust-head h2 { margin: 0; font-size: clamp(31px, 4.5vw, 50px); line-height: 1; letter-spacing: -.045em; }
+      .trust-head p { max-width: 720px; margin: 0; color: #cbdce5; font-size: 17px; line-height: 1.7; }
+      .trust-grid { display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid rgba(255,255,255,.25); }
+      .trust-card { min-height: 245px; padding: 27px 25px 29px; }
+      .trust-card:nth-child(even) { border-left: 1px solid rgba(255,255,255,.25); }
+      .trust-card:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.25); }
+      .trust-label { color: #8ce8df; font: 600 11px/1.2 var(--mono); letter-spacing: .05em; text-transform: uppercase; }
+      .trust-card h3 { margin: 23px 0 11px; font-size: 20px; }
+      .trust-card p { margin: 0; color: #cbdce5; font-size: 14px; line-height: 1.65; }
+      .trust-card p + p { margin-top: 11px; }
+      .trust-list { margin: 0; padding: 0; list-style: none; }
+      .trust-list li { position: relative; padding: 11px 0 11px 24px; color: #d9e6ec; font-size: 13px; line-height: 1.55; border-top: 1px solid rgba(255,255,255,.16); }
+      .trust-list li:first-child { border-top: 0; padding-top: 0; }
+      .trust-list li::before { content: ""; position: absolute; left: 0; top: 17px; width: 8px; height: 8px; border-radius: 50%; background: var(--aqua); }
+      .trust-list li:first-child::before { top: 6px; }
+      .trust-list .pending::before { background: var(--amber); }
+      .trust-strong { color: #fff; font-weight: 700; }
+      .terms-note { margin-top: 24px; padding: 18px 20px; background: rgba(255,255,255,.08); border-left: 4px solid var(--coral); color: #d9e6ec; font-size: 13px; line-height: 1.65; }
+      @media (max-width: 900px) {
+        .hero-inner { grid-template-columns: 1fr; gap: 38px; min-height: 0; padding: 54px 0 52px; }
+        .snapshot { max-width: 500px; }
+        .buying-head { grid-template-columns: 1fr; gap: 18px; }
+        .buying-grid { grid-template-columns: 1fr; }
+        .buying-path { min-height: 0; }
+        .buying-path + .buying-path { border-left: 0; border-top: 1px solid var(--line); }
+        .path-link { margin-top: 4px; }
+        .toolbar { grid-template-columns: 1fr; }
+        .search-wrap { max-width: none; }
+        .filters { justify-content: flex-start; }
+        .app { grid-template-columns: 68px minmax(0, .8fr) minmax(250px, 1.2fr); }
+        .action { grid-column: 2 / -1; justify-self: start; text-align: left; }
+        .system-intro, .ledger-grid, .trust-head { grid-template-columns: 1fr; gap: 24px; }
+      }
+
+      @media (max-width: 650px) {
+        .shell { width: min(100% - 28px, 1180px); }
+        .hero::after { inset: 48% 0 0 0; transform: none; }
+        .hero-inner { padding: 42px 0 45px; }
+        h1 { font-size: clamp(40px, 14vw, 58px); }
+        .hero-copy { font-size: 16px; }
+        .snapshot { margin-right: 8px; padding: 18px; box-shadow: 8px 8px 0 var(--coral); }
+        .buying-inner { padding-top: 44px; }
+        .buying-head { margin-bottom: 24px; }
+        .buying-path { padding: 21px 19px 23px; }
+        .buying-path h3 { margin-top: 20px; }
+        .toolbar { padding: 18px 0; }
+        .filters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+        .filter { padding: 8px 7px; font-size: 12px; }
+        .catalog { padding: 34px 0 52px; }
+        .section-head { align-items: start; flex-direction: column; gap: 8px; }
+        .app { grid-template-columns: 54px minmax(0, 1fr); gap: 15px; padding: 23px 0; }
+        .mark { width: 50px; height: 50px; font-size: 16px; }
+        .app-main { padding-top: 2px; }
+        .app-copy { grid-column: 2; }
+        .action { grid-column: 2; }
+        .system-inner { padding: 48px 0 54px; }
+        .system-steps { grid-template-columns: 1fr; }
+        .step { min-height: 0; }
+        .step + .step { border-left: 0; border-top: 1px solid var(--line); }
+        .step h3 { margin-top: 20px; }
+        .ledger { padding: 48px 0 56px; }
+        .definition { grid-template-columns: 92px 1fr; gap: 16px; }
+        .trust-inner { padding: 52px 0 56px; }
+        .trust-grid { grid-template-columns: 1fr; }
+        .trust-card { min-height: 0; padding: 24px 20px 26px; }
+        .trust-card:nth-child(even) { border-left: 0; }
+        .trust-card:nth-child(n+2) { border-top: 1px solid rgba(255,255,255,.25); }
+      }
+
+      @media (max-width: 410px) {
+        .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .snapshot-grid { grid-template-columns: 1fr; }
+        .metric:nth-child(even) { padding-left: 0; border-left: 0; }
+        .app-copy, .action { grid-column: 1 / -1; }
+        .app-main { min-width: 0; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="shell hero-inner">
+        <div>
+          <div class="kicker"><span class="dot" aria-hidden="true"></span><span>Glenride App Store</span><span>Products &amp; publications</span><span>Inventory 2026.10.08</span></div>
+          <h1>Buy the work. License the system.</h1>
+          <p class="hero-copy">Original publications, research products, and working software—presented in plain language for individual buyers, organizations, and operators.</p>
+        </div>
+        <aside class="snapshot" aria-label="Store snapshot">
+          <p class="snapshot-label">Store snapshot</p>
+          <div class="snapshot-grid">
+            <div class="metric"><strong>11</strong><span>Products listed</span></div>
+            <div class="metric"><strong>3</strong><span>Public pages</span></div>
+            <div class="metric"><strong>3</strong><span>Publication lines</span></div>
+            <div class="metric"><strong>5</strong><span>Systems &amp; tools</span></div>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+      <section class="buying-band" aria-labelledby="buying-title">
+        <div class="shell buying-inner">
+          <div class="buying-head">
+            <h2 id="buying-title">Three straightforward ways in.</h2>
+            <p>Every listing tells you what is usable now and what is still being prepared for sale. No product takes payment before its price, format, and terms are published.</p>
+          </div>
+          <div class="buying-grid">
+            <article class="buying-path">
+              <span class="path-num">01 / INDIVIDUALS</span>
+              <h3>Buy a publication</h3>
+              <p>Own a personal-use copy of an essay, research brief, field guide, or recurring digest in its listed format.</p>
+              <button class="path-link" type="button" data-browse="publication">Browse publications <span aria-hidden="true">→</span></button>
+            </article>
+            <article class="buying-path">
+              <span class="path-num">02 / ORGANIZATIONS</span>
+              <h3>License the work</h3>
+              <p>Use selected publications, data products, or software within a team, program, classroom, or client engagement.</p>
+              <button class="path-link" type="button" data-browse="license">See license candidates <span aria-hidden="true">→</span></button>
+            </article>
+            <article class="buying-path">
+              <span class="path-num">03 / OPERATORS</span>
+              <h3>Deploy a system</h3>
+              <p>Bring a proven automation or tool into your own environment with configuration, documentation, and support scoped separately.</p>
+              <button class="path-link" type="button" data-browse="system">Explore systems <span aria-hidden="true">→</span></button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="toolbar-wrap">
+        <div class="shell toolbar" aria-label="Catalog controls">
+          <label class="search-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <input id="search" type="search" placeholder="Search products, publications, or licenses" aria-label="Search the catalog" autocomplete="off" />
+          </label>
+          <div class="filters" aria-label="Filter by availability">
+            <button class="filter" type="button" data-filter="all" aria-pressed="true">All <span>11</span></button>
+            <button class="filter" type="button" data-filter="live" aria-pressed="false">Available now <span>3</span></button>
+            <button class="filter" type="button" data-filter="staging" aria-pressed="false">Coming soon <span>5</span></button>
+            <button class="filter" type="button" data-filter="custom" aria-pressed="false">Custom setup <span>3</span></button>
+          </div>
+        </div>
+      </div>
+
+      <section class="shell catalog" aria-labelledby="catalog-title">
+        <div class="section-head">
+          <h2 id="catalog-title">Products &amp; publications</h2>
+          <p class="results" id="results" aria-live="polite">Showing all 11 projects</p>
+        </div>
+
+        <div class="app-list" id="app-list">
+          <article class="app" data-category="live" data-search="spinwave spin token scholarly repository available now browser public access">
+            <div class="mark" data-tone="aqua" aria-hidden="true">SP</div>
+            <div class="app-main">
+              <div class="app-title-line"><h3>SpinWave</h3><span class="status live">Available now</span></div>
+              <p class="meta">USE INSTANTLY IN YOUR BROWSER</p>
+              <div class="offer-line"><span class="offer open">Public access</span></div>
+            </div>
+            <div class="app-copy">
+              <p class="description">Explore $SPIN and the scholarly repository it supports: a project built to set knowledge free.</p>
+              <details><summary>What you get</summary><p class="detail-copy">Open the project and its launch information instantly in your browser. Social and contact links will be added as they become available.</p></details>
+            </div>
+            <div class="action"><a class="out-link" href="https://spinwave.pages.dev" target="_blank" rel="noopener">Open site <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 16 16 8M9 8h7v7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+          </article>
+
+          <article class="app" data-category="live" data-search="wavy community token trust center fair launch available now browser public access">
+            <div class="mark" data-tone="aqua" aria-hidden="true">WV</div>
+            <div class="app-main">
+              <div class="app-title-line"><h3>WAVY</h3><span class="status live">Available now</span></div>
+              <p class="meta">USE INSTANTLY IN YOUR BROWSER</p>
+              <div class="offer-line"><span class="offer open">Public access</span></div>
+            </div>
+            <div class="app-copy">
+              <p class="description">Review the $WAVY community token concept, its trust center, participation flow, and fair-launch record.</p>
+              <details><summary>What you get</summary><p class="detail-copy">Open the complete prelaunch record in your browser. Community, contact, and payment links will appear only when those destinations are ready.</p></details>
+            </div>
+            <div class="action"><a class="out-link" href="https://wavysociety.pages.dev" target="_blank" rel="noopener">Open site <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 16 16 8M9 8h7v7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+          </article>
+
+          <article class="app" data-category="live" data-search="telegram emoji lab sticker webm media creator available now browser free tool">
+            <div class="mark" data-tone="aqua" aria-hidden="true">EL</div>
+            <div class="app-main">
+              <div class="app-title-line"><h3>Telegram Emoji Lab</h3><span class="status live">Available now</span></div>
+              <p class="meta">USE INSTANTLY IN YOUR BROWSER</p>
+              <div class="offer-line"><span class="offer open">Free tool</span></div>
+            </div>
+            <div class="app-copy">
+              <p class="description">Prepare Telegram-ready emoji and sticker media, including verified WebM output.</p>
+              <details><summary>What you get</summary><p class="detail-copy">Open the lab in your browser, prepare your media, and download the finished file for Telegram.</p></details>
+            </div>
+            <div class="action"><a class="out-link" href="https://telegram-emoji-lab.pages.dev" target="_blank" rel="noopener">Open lab <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 16 16 8M9 8h7v7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+          </article>
+
+          <article class="app" data-category="staging" data-search="token membership system wallet sign in member numbers referral code on chain score pending recognition ledger coming soon organization license setup">
+            <div class="mark" data-tone="amber" aria-hidden="true">TB</div>
+            <div class="app-main">
+              <div class="app-title-line"><h3>Token Membership System</h3><span class="status stage">Coming soon</span></div>
+              <p class="meta">LICENSED SYSTEM · SETUP INCLUDED</p>
+              <div class="offer-line"><span class="offer pending">Organization license coming soon</span></div>
+            </div>
+            <div class="app-copy">
+              <p class="description">Give members wallet-based sign-in, private member numbers, masked referrals, on-chain scoring, and a clear recognition ledger.</p>
+              <details><summary>What you will get</summary><p class="detail-copy">A licensed system installed and configured for your program, with documentation and a scoped support handoff. Licensing is not open yet.</p></details>
+            </div>
+            <div class="action"><span class="action-note">License intake<br />coming soon</span></div>
+          </article>
+
+          <article class="app" data-category="staging" data-search="job digest startup jobs daily weekday ranked freshness downloadable publication subscription coming soon">
+            <div class="mark" data-tone="amber" aria-hidden="true">JD</div>
+            <div class="app-main">
+              <div class="app-title-line"><h3>Job Digest</h3><span class="status stage">Coming soon</span></div>
+              <p class="meta">DOWNLOADABLE WEEKDAY PUBLICATION</p>
+              <div class="offer-line"><span class="offer pending">Publication subscription coming soon</span></div>
+            </div>
+            <div class="app-copy">
+              <p class="description">Find fresh startup job postings ranked by recency and grouped by role every weekday morning.</p>
+              <details><summary>What you will get</summary><p class="detail-copy">Each edition will be yours to keep and download, with subscription options published before enrollment opens.</p></details>
+            </div>
+            <div class="action"><span class="action-note">Download editions<br />coming soon</span></div>
+          </article>
+
+          <article class="app" data-category="staging" data-search="cornerstone essay power wisdom gap independent infrastructure downloadable publication personal copy organization license coming soon">
+            <div class="mark" data-tone="amber" aria-hidden="true">PW</div>
+            <div class="app-main">
+              <div class="app-title-line"><h3>Cornerstone Essay</h3><span class="status stage">Coming soon</span></div>
+              <p class="meta">DOWNLOADABLE LONG-FORM PUBLICATION</p>
+              <div class="offer-line"><span class="offer pending">Personal copy coming soon</span><span class="offer pending">Organization license coming soon</span></div>
+            </div>
+            <div class="app-copy">
+              <p class="description"><cite>The Power-Wisdom Gap and the Imperative for Independent Infrastructure</cite>, a long-form examination of power, wisdom, and independent systems.</p>
+              <details><summary>What you will get</summary><p class="detail-copy">Personal buyers will receive a copy to keep and download. Organization licensing will define team use and redistribution rights in writing.</p></details>
+            </div>
+            <div class="action"><span class="action-note">Personal and team editions<br />coming soon</span></div>
+          </article>
+
+          <article class="app" data-category="staging" data-search="drug shortage digest fda ashp drugs weekly monday pharmaceutical supply chain downloadable publication subscription organization license coming soon">
+            <div class="mark" data-tone="amber" aria-hidden="true">RX</div>
+            <div class="app-main">
+              <div class="app-title-line"><h3>Drug-Shortage Digest</h3><span class="status stage">Coming soon</span></div>
+              <p class="meta">DOWNLOADABLE WEEKLY BRIEF</p>
+              <div class="offer-line"><span class="offer pending">Publication license coming soon</span></div>
+            </div>
+            <div class="app-copy">
+              <p class="description">Track U.S. drug-shortage reporting across ASHP, FDA, and Drugs.com in one focused Monday brief.</p>
+              <details><summary>What you will get</summary><p class="detail-copy">A downloadable weekly edition you can keep for reference, with organization use and team distribution defined by license.</p></details>
+            </div>
+            <div class="action"><span class="action-note">Download editions<br />coming soon</span></div>
+          </article>
+
+          <article class="app" data-category="custom" data-search="vapor wire telegram bot chat automation welcome scheduled posts cross posting moderation keyword alerts daily digest custom setup licensed system installation">
+            <div class="mark" data-tone="coral" aria-hidden="true">VW</div>
+            <div class="app-main">
+              <div class="app-title-line"><h3>Vapor Wire Bot</h3><span class="status custom">Custom setup</span></div>
+              <p class="meta">LICENSED SYSTEM · INSTALLATION INCLUDED</p>
+              <div class="offer-line"><span class="offer pending">Custom setup</span></div>
+            </div>
+            <div class="app-copy">
+              <p class="description">Automate welcomes, scheduled posts, cross-posting, moderation, keyword alerts, and daily summaries across your Telegram communities.</p>
+              <details><summary>What you get</summary><p class="detail-copy">A licensed installation configured for your channels, rules, and administrator needs, plus clear operating documentation and handoff.</p></details>
+            </div>
+            <div class="action"><span class="action-note">Custom scope and quote<br />before installation</span></div>
+          </article>
+
+          <article class="app" data-category="custom" data-search="job discovery system startup jobs approved sources normalized catalog scheduled updates custom setup licensed system installation">
+            <div class="mark" data-tone="coral" aria-hidden="true">JS</div>
+            <div class="app-main">
+              <div class="app-title-line"><h3>Job Discovery System</h3><span class="status custom">Custom setup</span></div>
+              <p class="meta">LICENSED SYSTEM · INSTALLATION INCLUDED</p>
+              <div class="offer-line"><span class="offer pending">Custom setup</span></div>
+            </div>
+            <div class="app-copy">
+              <p class="description">Collect startup openings from approved sources, organize them into one searchable catalog, and produce scheduled role-based digests.</p>
+              <details><summary>What you get</summary><p class="detail-copy">A configured source list, automated collection schedule, searchable catalog, and documented workflow tailored to your hiring or job-search focus.</p></details>
+            </div>
+            <div class="action"><span class="action-note">Custom scope and quote<br />before installation</span></div>
+          </article>
+
+          <article class="app" data-category="staging" data-search="content factory video clips transcribe caption score long form content workflow licensed system setup coming soon">
+            <div class="mark" data-tone="amber" aria-hidden="true">CF</div>
+            <div class="app-main">
+              <div class="app-title-line"><h3>Content Factory</h3><span class="status stage">Coming soon</span></div>
+              <p class="meta">LICENSED CONTENT WORKFLOW · SETUP INCLUDED</p>
+              <div class="offer-line"><span class="offer pending">Available after validation</span></div>
+            </div>
+            <div class="app-copy">
+              <p class="description">Turn original long-form video into transcribed, scored, captioned clips ready for review and publishing.</p>
+              <details><summary>What you will get</summary><p class="detail-copy">A configured content workflow, operating documentation, and handoff after the complete process passes end-to-end validation.</p></details>
+            </div>
+            <div class="action"><span class="action-note">End-to-end validation<br />underway</span></div>
+          </article>
+
+          <article class="app" data-category="custom" data-search="token checker due diligence base solana contract address review tool custom setup license installation">
+            <div class="mark" data-tone="coral" aria-hidden="true">TC</div>
+            <div class="app-main">
+              <div class="app-title-line"><h3>Token Checker</h3><span class="status custom">Custom setup</span></div>
+              <p class="meta">LICENSED REVIEW TOOL · SETUP INCLUDED</p>
+              <div class="offer-line"><span class="offer pending">Custom setup</span></div>
+            </div>
+            <div class="app-copy">
+              <p class="description">Check Base and Solana token contracts for key due-diligence signals without supplying paid service keys.</p>
+              <details><summary>What you get</summary><p class="detail-copy">A licensed installation, setup guidance, and a documented review workflow for checking contract addresses in your own process.</p></details>
+            </div>
+            <div class="action"><span class="action-note">Custom scope and quote<br />before installation</span></div>
+          </article>
+
+          <div class="empty" id="empty">
+            <strong>No matching projects.</strong>
+            Try a broader term or choose another status.
+          </div>
+        </div>
+      </section>
+
+      <section class="system-band" aria-labelledby="system-title">
+        <div class="shell system-inner">
+          <div class="system-intro">
+            <h2 id="system-title">Choose how you want to use it.</h2>
+            <p>Open browser products immediately, keep the publications you purchase, or have a licensed system installed and configured for your organization.</p>
+          </div>
+          <div class="system-steps">
+            <div class="step"><span class="step-num">01 / USE NOW</span><h3>Open it in your browser</h3><p>Available-now tools and project pages work instantly—no installation or account setup required.</p></div>
+            <div class="step"><span class="step-num">02 / KEEP</span><h3>Download your copy</h3><p>Purchased publications are yours to keep for personal reference, with team use available under a written license.</p></div>
+            <div class="step"><span class="step-num">03 / SETUP</span><h3>Have the system installed</h3><p>Licensed systems are configured around your needs, documented clearly, and handed over with agreed support.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell ledger" aria-labelledby="ledger-title">
+        <div class="ledger-grid">
+          <div>
+            <h2 id="ledger-title">A clear promise on every listing.</h2>
+            <p class="ledger-lead">Each label tells you what you can receive and whether you can act today.</p>
+          </div>
+          <dl class="definitions">
+            <div class="definition"><dt>Available now</dt><dd>Use it in your browser today or follow the listing directly to the finished product.</dd></div>
+            <div class="definition"><dt>Coming soon</dt><dd>The offer is being prepared. You will see the format, price, and terms before any payment is accepted.</dd></div>
+            <div class="definition"><dt>Custom setup</dt><dd>Receive a licensed system installed and configured for your needs, with scope, price, and support agreed in writing first.</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="trust-center" aria-labelledby="trust-title">
+        <div class="shell trust-inner">
+          <div class="trust-head">
+            <h2 id="trust-title">Trust Center</h2>
+            <p>Credibility here comes from naming the operator, separating completed checks from planned ones, and publishing terms before asking anyone to pay. A pending verification is never presented as a badge.</p>
+          </div>
+          <div class="trust-grid">
+            <article class="trust-card">
+              <span class="trust-label">01 / Operator</span>
+              <h3>Who runs the store</h3>
+              <p><span class="trust-strong">D'Vaughn House</span> is the founder and named operator of the Glenride App Store.</p>
+              <p><span class="trust-strong">Public contact record:</span> a dedicated sales address and permanent store domain are still pending. They will be published here before checkout or licensing intake opens.</p>
+            </article>
+            <article class="trust-card">
+              <span class="trust-label">02 / Verification ledger</span>
+              <h3>Verified versus pending</h3>
+              <ul class="trust-list">
+                <li><span class="trust-strong">Verified internally:</span> 11 listings reconciled against project files on October 8, 2026.</li>
+                <li><span class="trust-strong">Verified publicly:</span> three listings link to working public pages.</li>
+                <li class="pending"><span class="trust-strong">Pending:</span> permanent-domain scans through Mozilla Observatory and Qualys SSL Labs.</li>
+                <li class="pending"><span class="trust-strong">Pending:</span> TrustedSite review. No certification badge is claimed or displayed.</li>
+              </ul>
+            </article>
+            <article class="trust-card">
+              <span class="trust-label">03 / Commercial terms</span>
+              <h3>Buy and license in plain language</h3>
+              <p><span class="trust-strong">Personal purchase:</span> one person may use the delivered publication for personal reading and reference; redistribution is not included.</p>
+              <p><span class="trust-strong">Organization license:</span> team size, use, term, redistribution rights, updates, and support must be written into the order. No resale or sublicensing is included unless the agreement says so.</p>
+              <p><span class="trust-strong">Refunds:</span> the product-specific refund window and delivery conditions will appear before payment. Until they do, that product is not open for sale.</p>
+            </article>
+            <article class="trust-card">
+              <span class="trust-label">04 / Claims standard</span>
+              <h3>No profit promises</h3>
+              <p>Nothing in this store promises profit, income, investment return, token appreciation, or a particular business result. A buyer pays only for the content, software rights, deployment, or support identified in the written offer.</p>
+              <p>Product status describes readiness, not financial value. “Planned” means the offer is not yet available to buy or license.</p>
+            </article>
+          </div>
+          <div class="terms-note"><strong>Before money changes hands:</strong> each paid listing must show a price or written quote, delivery format, license scope, refund terms, and a verified contact route. Until all five are present, the listing remains an honest preview—not a checkout.</div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var buttons = Array.prototype.slice.call(document.querySelectorAll('.filter'));
+        var apps = Array.prototype.slice.call(document.querySelectorAll('.app'));
+        var search = document.getElementById('search');
+        var results = document.getElementById('results');
+        var empty = document.getElementById('empty');
+        var browseButtons = Array.prototype.slice.call(document.querySelectorAll('[data-browse]'));
+        var active = 'all';
+
+        function update() {
+          var query = search.value.trim().toLowerCase();
+          var visible = 0;
+          apps.forEach(function (app) {
+            var categoryMatch = active === 'all' || app.getAttribute('data-category') === active;
+            var text = (app.getAttribute('data-search') + ' ' + app.textContent).toLowerCase();
+            var queryMatch = !query || text.indexOf(query) !== -1;
+            var show = categoryMatch && queryMatch;
+            app.hidden = !show;
+            if (show) visible += 1;
+          });
+          empty.classList.toggle('show', visible === 0);
+          if (visible === 11 && active === 'all' && !query) {
+            results.textContent = 'Showing all 11 projects';
+          } else {
+            results.textContent = 'Showing ' + visible + (visible === 1 ? ' project' : ' projects');
+          }
+        }
+
+        buttons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            active = button.getAttribute('data-filter');
+            buttons.forEach(function (item) {
+              item.setAttribute('aria-pressed', item === button ? 'true' : 'false');
+            });
+            update();
+          });
+        });
+        browseButtons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            active = 'all';
+            buttons.forEach(function (item) {
+              item.setAttribute('aria-pressed', item.getAttribute('data-filter') === 'all' ? 'true' : 'false');
+            });
+            search.value = button.getAttribute('data-browse');
+            update();
+            document.getElementById('catalog-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+        search.addEventListener('input', update);
+      }());
+    </script>
+  </body>
+</html>
